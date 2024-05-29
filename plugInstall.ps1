@@ -56,13 +56,20 @@ $exit = $false
             $Paths = @("$HOME/vimfiles/autoload/plug.vim",
                         "$env:LOCALAPPDATA/nvim-data/site/autoload/plug.vim",
                         "$env:XDG_DATA_HOME/nvim-data/site/autoload/plug.vim")
+            $plugFound = $false
             foreach ($Path in $Paths) {
                 if (Test-Path $Path) {
                     Remove-Item $Path -Force
+                    $plugFound = $true
                 }
             }
-            Write-Host ""
-            Write-Host "File plug.vim removed successfully."
+            if (-not $plugFound) {
+                Write-Host ""
+                Write-Host "File plug.vim not found in any directory."
+                } else {
+                    Write-Host ""
+                    Write-Host "File plug.vim removed successfully."
+                }
             $exit = $true
             break
         }
