@@ -9,7 +9,8 @@ $exit = $false
     Write-Host ""
     Write-Host "1) Vim"
     Write-Host "2) Neovim"
-    Write-Host "3) Exit"
+    Write-Host "3) Uninstall"
+    Write-Host "4) Exit"
     Write-Host ""
 
     Write-Host -NoNewline ">> "
@@ -52,6 +53,20 @@ $exit = $false
             break
         }
         '3' {
+            $Paths = @("$HOME/vimfiles/autoload/plug.vim",
+                        "$env:LOCALAPPDATA/nvim-data/site/autoload/plug.vim",
+                        "$env:XDG_DATA_HOME/nvim-data/site/autoload/plug.vim")
+            foreach ($Path in $Paths) {
+                if (Test-Path $Path) {
+                    Remove-Item $Path -Force
+                }
+            }
+            Write-Host ""
+            Write-Host "File plug.vim removed successfully."
+            $exit = $true
+            break
+        }
+        '4' {
             Write-Host ""
             Write-Host "You have chosen to exit."
             $exit = $true
