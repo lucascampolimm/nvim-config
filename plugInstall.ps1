@@ -4,7 +4,7 @@ Clear-Host
 
 $exit = $false
 
-    while(-not $exit) {
+while(-not $exit) {
     Write-Host "Choose an editor to configure Vim Plug: "
     Write-Host ""
     Write-Host "1) Vim"
@@ -53,23 +53,30 @@ $exit = $false
             break
         }
         '3' {
-            $Paths = @("$HOME/vimfiles/autoload/plug.vim",
-                        "$env:LOCALAPPDATA/nvim-data/site/autoload/plug.vim",
-                        "$env:XDG_DATA_HOME/nvim-data/site/autoload/plug.vim")
-            $plugFound = $false
-            foreach ($Path in $Paths) {
-                if (Test-Path $Path) {
-                    Remove-Item $Path -Force
-                    $plugFound = $true
+            Write-Host ""
+            $response = Read-Host "Are you sure you want to remove the plug.vim file? (Y/N)"
+            if ($response -eq "Y" -or $response -eq "y") {
+                $Paths = @("$HOME/vimfiles/autoload/plug.vim",
+                            "$env:LOCALAPPDATA/nvim-data/site/autoload/plug.vim",
+                            "$env:XDG_DATA_HOME/nvim-data/site/autoload/plug.vim")
+                $plugFound = $false
+                foreach ($Path in $Paths) {
+                    if (Test-Path $Path) {
+                        Remove-Item $Path -Force
+                        $plugFound = $true
+                    }
                 }
-            }
-            if (-not $plugFound) {
-                Write-Host ""
-                Write-Host "File plug.vim not found in any directory."
-                } else {
+                if (-not $plugFound) {
                     Write-Host ""
-                    Write-Host "File plug.vim removed successfully."
-                }
+                    Write-Host "File plug.vim not found in any directory."
+                    } else {
+                        Write-Host ""
+                        Write-Host "File plug.vim removed successfully."
+                    }
+            } else {
+                Write-Host ""
+                Write-Host "Operation cancelled."
+            }
             $exit = $true
             break
         }
