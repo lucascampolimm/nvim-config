@@ -9,7 +9,8 @@ while(-not $exit) {
     Write-Host ""
     Write-Host "1) Vim"
     Write-Host "2) Neovim"
-    Write-Host "3) Exit"
+    Write-Host "3) Remove"
+    Write-Host "4) Exit"
     Write-Host ""
 
     Write-Host -NoNewline ">> "
@@ -55,7 +56,35 @@ while(-not $exit) {
             $exit = $true
             break
         }
-        '3' {
+        '3'{
+            Write-Host ""
+            $response = Read-Host "Are you sure you want to remove the init.vim file? (Y/N)"
+            if ($response -eq "Y" -or $response -eq "y") {
+                $paths = @("$HOME/.vimrc",
+                            "$env:LOCALAPPDATA/nvim/init.vim",
+                            "$env:XDG_DATA_HOME/nvim/init.vim")
+                $initFound = $false
+                foreach ($Path in $paths) {
+                    if (Test-Path $Path) {
+                        Remove-Item $Path -Force
+                        $initFound = $true
+                    }
+                }
+                if (-not $initFound) {
+                    Write-Host ""
+                    Write-Host "File init.vim not found in any directory."
+                    } else {
+                        Write-Host ""
+                        Write-Host "File init.vim removed successfully."
+                    }
+            } else {
+                Write-Host ""
+                Write-Host "Operation cancelled."
+            }
+            $exit = $true
+            break
+        }
+        '4' {
             Write-Host ""
             Write-Host "You have chosen to exit."
             $exit = $true
