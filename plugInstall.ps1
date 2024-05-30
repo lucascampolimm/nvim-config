@@ -18,10 +18,10 @@ while(-not $exit) {
 
     switch ($op) {
         '1' {  
-            $PlugPath = "$HOME/vimfiles/autoload/plug.vim"
-            if (-not (Test-Path $PlugPath)) {
+            $plugPath = "$HOME/vimfiles/autoload/plug.vim"
+            if (-not (Test-Path $plugPath)) {
                 iwr -useb https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim | `
-                ni $PlugPath -Force
+                ni $plugPath -Force
                 Write-Host ""
                 Write-Host "Vim Plug configuration completed."
             } else {
@@ -38,11 +38,11 @@ while(-not $exit) {
             } else {
                 $nvimPath = $env:LOCALAPPDATA
             }
-            $PlugPath = "$nvimPath/nvim-data/site/autoload/plug.vim"
+            $plugPath = "$nvimPath/nvim-data/site/autoload/plug.vim"
 
-            if (-not (Test-Path $PlugPath)) {
+            if (-not (Test-Path $plugPath)) {
                 iwr -useb https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim | `
-                ni $PlugPath -Force
+                ni $plugPath -Force
                 Write-Host ""
                 Write-Host "Vim Plug configuration completed."
             } else {
@@ -56,11 +56,11 @@ while(-not $exit) {
             Write-Host ""
             $response = Read-Host "Are you sure you want to remove the plug.vim file? (Y/N)"
             if ($response -eq "Y" -or $response -eq "y") {
-                $Paths = @("$HOME/vimfiles/autoload/plug.vim",
+                $paths = @("$HOME/vimfiles/autoload/plug.vim",
                             "$env:LOCALAPPDATA/nvim-data/site/autoload/plug.vim",
                             "$env:XDG_DATA_HOME/nvim-data/site/autoload/plug.vim")
                 $plugFound = $false
-                foreach ($Path in $Paths) {
+                foreach ($Path in $paths) {
                     if (Test-Path $Path) {
                         Remove-Item $Path -Force
                         $plugFound = $true
