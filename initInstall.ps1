@@ -17,10 +17,16 @@ while(-not $exit) {
 
     switch ($op) {
         '1' {
-            Copy-Item -Path "init.vim" -Destination "$HOME" -Force
-            Rename-Item -Path "$HOME/init.vim" -NewName ".vimrc" -Force
-            Write-Host ""
-            Write-Host "The configuration file has been copied."
+            $initPath = "$HOME/.vimrc"
+            if (-not (Test-Path $initPath)) {
+                Copy-Item -Path "init.vim" -Destination "$HOME" -Force
+                Rename-Item -Path "$HOME/init.vim" -NewName ".vimrc" -Force
+                Write-Host ""
+                Write-Host "The configuration file has been copied."
+            } else {
+                Write-Host ""
+                Write-Host "The file .vimrc already exists!"
+            }
             $exit = $true
             break
         }
@@ -32,14 +38,20 @@ while(-not $exit) {
                     $nvimPath = $env:LOCALAPPDATA
                 }
 
-            $nvimDir = Join-Path -Path $nvimPath -ChildPath "nvim"
-            if (-Not (Test-Path -Path $nvimDir)) {
-                New-Item -ItemType Directory -Path $nvimDir
-            }
+            $initPath = "$nvimPath/nvim/init.vim"
+            if (-not (Test-Path $initPath)) {
+                $nvimDir = Join-Path -Path $nvimPath -ChildPath "nvim"
+                if (-Not (Test-Path -Path $nvimDir)) {
+                    New-Item -ItemType Directory -Path $nvimDir
+                }
 
-            Copy-Item -Path "init.vim" -Destination $nvimDir -Force
-            Write-Host ""
-            Write-Host "The configuration file has been copied."
+                Copy-Item -Path "init.vim" -Destination $nvimDir -Force
+                Write-Host ""
+                Write-Host "The configuration file has been copied."
+            } else {
+                Write-Host ""
+                Write-Host "The file init.vim already exists!"
+            }
             $exit = $true
             break
         }
