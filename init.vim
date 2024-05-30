@@ -1,6 +1,8 @@
 call plug#begin()
 
 Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'sheerun/vim-polyglot'
+Plug 'jiangmiao/auto-pairs'
 
 call plug#end()
 
