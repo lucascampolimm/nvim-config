@@ -1,5 +1,11 @@
 ## Usage
 
 ```
-powershell -ExecutionPolicy Bypass -File .\plugInstall.ps1
+powershell -ExecutionPolicy Bypass -File .\SCRIPT_NAME.ps1
+```
+
+## In your Vim/Neovim
+
+```
+:PlugInstall
 ```
